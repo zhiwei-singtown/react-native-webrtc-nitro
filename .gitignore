@@ -1,3 +1,8 @@
+# 3rdparty
+3rdparty/repo
+3rdparty/build
+3rdparty/output
+
 # OSX
 #
 .DS_Store

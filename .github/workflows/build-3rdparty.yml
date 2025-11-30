@@ -1,0 +1,58 @@
+on:
+  workflow_call:
+
+jobs:
+  common-steps:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Cache 3rdparty output
+        id: cache-3rdparty-output
+        uses: actions/cache@v4
+        with:
+          path: 3rdparty/output
+          key: ${{ runner.os }}-3rdparty-output-${{ hashFiles('3rdparty/*.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-3rdparty-output-
+
+      - name: Setup JDK 17
+        if: steps.cache-3rdparty-output.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Finalize Android SDK
+        if: steps.cache-3rdparty-output.outputs.cache-hit != 'true'
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;27.1.12297006"
+
+      - name: Setup Xcode
+        if: steps.cache-3rdparty-output.outputs.cache-hit != 'true'
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 16.4
+
+      - name: Install dependencies
+        if: steps.cache-3rdparty-output.outputs.cache-hit != 'true'
+        run: |
+          brew install cmake pkg-config python3 git
+
+      - name: Build 3rdparty
+        if: steps.cache-3rdparty-output.outputs.cache-hit != 'true'
+        run: |
+          cd 3rdparty
+          ./download.sh
+          ./build_ios.sh
+          ./build_android.sh
+
+      - name: Upload 3rdparty artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: 3rdparty-output
+          path: 3rdparty/output
+          retention-days: 1

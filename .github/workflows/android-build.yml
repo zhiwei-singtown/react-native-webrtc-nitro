@@ -35,12 +35,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build-3rdparty:
+    uses: ./.github/workflows/build-3rdparty.yml
+
   build:
     name: Build Android Example App
+    needs: build-3rdparty
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
+
+      - name: Download 3rdparty artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: 3rdparty-output
+          path: 3rdparty/output
 
       - name: Install dependencies (bun)
         run: bun install
