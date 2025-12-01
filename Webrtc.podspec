@@ -17,10 +17,21 @@ Pod::Spec.new do |s|
     # Implementation (Swift)
     "ios/**/*.{swift}",
     # Autolinking/Registration (Objective-C++)
-    "ios/**/*.{m,mm}",
+    "ios/**/*.{h,m,mm}",
     # Implementation (C++ objects)
-    "cpp/**/*.{hpp,cpp}",
+    "cpp/*.{h,hpp,cpp}",
+    "cpp/FFmpeg/*.{h,hpp,cpp}",
   ]
+
+  s.vendored_frameworks = "3rdparty/output/ios/*.xcframework"
+  s.pod_target_xcconfig = {
+    'HEADER_SEARCH_PATHS' => [
+      '$(PODS_TARGET_SRCROOT)/3rdparty/output/ios/ffmpeg.xcframework/ios-arm64/Headers',
+      '$(PODS_TARGET_SRCROOT)/3rdparty/output/ios/libdatachannel.xcframework/ios-arm64/Headers',
+    ].join(' ')
+  }
+  s.frameworks = 'AVFoundation', 'CoreMedia', 'CoreVideo', 'VideoToolbox'
+  s.libraries  = 'z'
 
   load 'nitrogen/generated/ios/Webrtc+autolinking.rb'
   add_nitrogen_files(s)

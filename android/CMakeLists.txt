@@ -8,9 +8,19 @@ set (CMAKE_CXX_STANDARD 20)
 # Enable Raw Props parsing in react-native (for Nitro Views)
 add_compile_options(-DRN_SERIALIZABLE_STATE=1)
 
+get_filename_component(TOP_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.. ABSOLUTE)
+get_filename_component(LIBDATACHANNEL_PATH ${TOP_PATH}/3rdparty/output/android/libdatachannel/${ANDROID_ABI} ABSOLUTE)
+get_filename_component(FFMPEG_PATH ${TOP_PATH}/3rdparty/output/android/ffmpeg/${ANDROID_ABI} ABSOLUTE)
+
+file(GLOB CPP_SOURCES
+        ${TOP_PATH}/cpp/*.cpp
+        ${TOP_PATH}/cpp/FFmpeg/*.cpp
+)
+
 # Define C++ library and add all sources
 add_library(${PACKAGE_NAME} SHARED
         src/main/cpp/cpp-adapter.cpp
+        ${CPP_SOURCES}
 )
 
 # Add Nitrogen specs :)
@@ -19,7 +29,10 @@ include(${CMAKE_SOURCE_DIR}/../nitrogen/generated/android/Webrtc+autolinking.cma
 # Set up local includes
 include_directories(
         "src/main/cpp"
-        "../cpp"
+        "${TOP_PATH}/cpp"
+        "${TOP_PATH}/cpp/FFmpeg"
+        ${LIBDATACHANNEL_PATH}/include
+        ${FFMPEG_PATH}/include
 )
 
 find_library(LOG_LIB log)
@@ -29,4 +42,10 @@ target_link_libraries(
         ${PACKAGE_NAME}
         ${LOG_LIB}
         android                                   # <-- Android core
+        ${LIBDATACHANNEL_PATH}/lib/libdatachannel.so
+        ${FFMPEG_PATH}/lib/libavformat.so
+        ${FFMPEG_PATH}/lib/libavcodec.so
+        ${FFMPEG_PATH}/lib/libswscale.so
+        ${FFMPEG_PATH}/lib/libswresample.so
+        ${FFMPEG_PATH}/lib/libavutil.so
 )

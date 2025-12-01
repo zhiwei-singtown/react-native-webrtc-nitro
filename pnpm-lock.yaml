@@ -23,6 +23,9 @@ importers:
       '@types/react':
         specifier: 19.2.7
         version: 19.2.7
+      clang-format-node:
+        specifier: ^2.0.5
+        version: 2.0.5
       conventional-changelog-conventionalcommits:
         specifier: ^9.1.0
         version: 9.1.0
@@ -1664,6 +1667,11 @@ packages:
   ci-info@4.3.1:
     resolution: {integrity: sha512-Wdy2Igu8OcBpI2pZePZ5oWjPC38tmDVx5WKUXKwlLYkA0ozo85sLsLvkBbBn/sZaSCMFOGZJ14fvW9t5/d7kdA==}
     engines: {node: '>=8'}
+
+  clang-format-node@2.0.5:
+    resolution: {integrity: sha512-7k0PsA0FFkHpZA1GdYAGWvxFyHHXeXJsH71N6S0RtOj/I99LUjhrNtED4SXQFlGZhnEpHqv/r8FBhWlmRMMxWg==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -6609,6 +6617,8 @@ snapshots:
   ci-info@3.9.0: {}
 
   ci-info@4.3.1: {}
+
+  clang-format-node@2.0.5: {}
 
   clean-stack@2.2.0: {}
 

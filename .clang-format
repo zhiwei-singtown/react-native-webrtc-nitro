@@ -1,0 +1,9 @@
+---
+BasedOnStyle: GNU
+IndentWidth: 4
+BreakBeforeBraces: Allman
+SeparateDefinitionBlocks: Always
+NamespaceIndentation: All
+BreakAfterReturnType: Automatic
+InsertNewlineAtEOF: true
+KeepEmptyLinesAtEOF: false
