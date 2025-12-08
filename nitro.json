@@ -13,9 +13,30 @@
     "androidCxxLibName": "Webrtc"
   },
   "autolinking": {
+    "MediaStreamTrack": {
+      "cpp": "HybridMediaStreamTrack"
+    },
+    "MediaStream": {
+      "cpp": "HybridMediaStream"
+    },
     "WebrtcView": {
       "swift": "HybridWebrtcView",
       "kotlin": "HybridWebrtcView"
+    },
+    "MediaDevices": {
+      "cpp": "HybridMediaDevices"
+    },
+    "RTCRtpSender": {
+      "cpp": "HybridRTCRtpSender"
+    },
+    "RTCRtpReceiver": {
+      "cpp": "HybridRTCRtpReceiver"
+    },
+    "RTCRtpTransceiver": {
+      "cpp": "HybridRTCRtpTransceiver"
+    },
+    "RTCPeerConnection": {
+      "cpp": "HybridRTCPeerConnection"
     }
   },
   "ignorePaths": [

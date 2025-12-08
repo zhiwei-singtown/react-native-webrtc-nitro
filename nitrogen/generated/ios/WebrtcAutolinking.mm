@@ -10,7 +10,14 @@
 #import "Webrtc-Swift-Cxx-Umbrella.hpp"
 #import <type_traits>
 
+#include "HybridMediaStreamTrack.hpp"
+#include "HybridMediaStream.hpp"
 #include "HybridWebrtcViewSpecSwift.hpp"
+#include "HybridMediaDevices.hpp"
+#include "HybridRTCRtpSender.hpp"
+#include "HybridRTCRtpReceiver.hpp"
+#include "HybridRTCRtpTransceiver.hpp"
+#include "HybridRTCPeerConnection.hpp"
 
 @interface WebrtcAutolinking : NSObject
 @end
@@ -22,10 +29,73 @@
   using namespace margelo::nitro::webrtc;
 
   HybridObjectRegistry::registerHybridObjectConstructor(
+    "MediaStreamTrack",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridMediaStreamTrack>,
+                    "The HybridObject \"HybridMediaStreamTrack\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridMediaStreamTrack>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "MediaStream",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridMediaStream>,
+                    "The HybridObject \"HybridMediaStream\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridMediaStream>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
     "WebrtcView",
     []() -> std::shared_ptr<HybridObject> {
       std::shared_ptr<HybridWebrtcViewSpec> hybridObject = Webrtc::WebrtcAutolinking::createWebrtcView();
       return hybridObject;
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "MediaDevices",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridMediaDevices>,
+                    "The HybridObject \"HybridMediaDevices\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridMediaDevices>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "RTCRtpSender",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridRTCRtpSender>,
+                    "The HybridObject \"HybridRTCRtpSender\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridRTCRtpSender>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "RTCRtpReceiver",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridRTCRtpReceiver>,
+                    "The HybridObject \"HybridRTCRtpReceiver\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridRTCRtpReceiver>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "RTCRtpTransceiver",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridRTCRtpTransceiver>,
+                    "The HybridObject \"HybridRTCRtpTransceiver\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridRTCRtpTransceiver>();
+    }
+  );
+  HybridObjectRegistry::registerHybridObjectConstructor(
+    "RTCPeerConnection",
+    []() -> std::shared_ptr<HybridObject> {
+      static_assert(std::is_default_constructible_v<HybridRTCPeerConnection>,
+                    "The HybridObject \"HybridRTCPeerConnection\" is not default-constructible! "
+                    "Create a public constructor that takes zero arguments to be able to autolink this HybridObject.");
+      return std::make_shared<HybridRTCPeerConnection>();
     }
   );
 }
