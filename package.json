@@ -27,6 +27,7 @@
     "lib",
     "nitrogen",
     "cpp",
+    "3rdparty/output",
     "nitro.json",
     "android/build.gradle",
     "android/fix-prefab.gradle",
