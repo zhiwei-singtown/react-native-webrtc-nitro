@@ -13,6 +13,10 @@
     "androidCxxLibName": "Webrtc"
   },
   "autolinking": {
+    "Permissions": {
+      "swift": "HybridPermissions",
+      "kotlin": "HybridPermissions"
+    },
     "Microphone": {
       "swift": "HybridMicrophone",
       "kotlin": "HybridMicrophone"

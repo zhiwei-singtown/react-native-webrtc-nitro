@@ -12,13 +12,25 @@
 namespace margelo::nitro::webrtc { class HybridCameraSpec; }
 // Forward declaration of `HybridMicrophoneSpec` to properly resolve imports.
 namespace margelo::nitro::webrtc { class HybridMicrophoneSpec; }
+// Forward declaration of `HybridPermissionsSpec` to properly resolve imports.
+namespace margelo::nitro::webrtc { class HybridPermissionsSpec; }
 // Forward declaration of `HybridWebrtcViewSpec` to properly resolve imports.
 namespace margelo::nitro::webrtc { class HybridWebrtcViewSpec; }
+// Forward declaration of `PermissionDescriptor` to properly resolve imports.
+namespace margelo::nitro::webrtc { struct PermissionDescriptor; }
+// Forward declaration of `PermissionName` to properly resolve imports.
+namespace margelo::nitro::webrtc { enum class PermissionName; }
+// Forward declaration of `PermissionState` to properly resolve imports.
+namespace margelo::nitro::webrtc { enum class PermissionState; }
 
 // Include C++ defined types
 #include "HybridCameraSpec.hpp"
 #include "HybridMicrophoneSpec.hpp"
+#include "HybridPermissionsSpec.hpp"
 #include "HybridWebrtcViewSpec.hpp"
+#include "PermissionDescriptor.hpp"
+#include "PermissionName.hpp"
+#include "PermissionState.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/Result.hpp>
 #include <exception>
@@ -40,6 +52,8 @@ namespace margelo::nitro::webrtc { class HybridWebrtcViewSpec; }
 namespace Webrtc { class HybridCameraSpec_cxx; }
 // Forward declaration of `HybridMicrophoneSpec_cxx` to properly resolve imports.
 namespace Webrtc { class HybridMicrophoneSpec_cxx; }
+// Forward declaration of `HybridPermissionsSpec_cxx` to properly resolve imports.
+namespace Webrtc { class HybridPermissionsSpec_cxx; }
 // Forward declaration of `HybridWebrtcViewSpec_cxx` to properly resolve imports.
 namespace Webrtc { class HybridWebrtcViewSpec_cxx; }
 

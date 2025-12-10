@@ -39,6 +39,7 @@ target_sources(
   ../nitrogen/generated/shared/c++/HybridMediaStreamSpec.cpp
   ../nitrogen/generated/shared/c++/HybridMediaStreamTrackSpec.cpp
   ../nitrogen/generated/shared/c++/HybridMicrophoneSpec.cpp
+  ../nitrogen/generated/shared/c++/HybridPermissionsSpec.cpp
   ../nitrogen/generated/shared/c++/HybridRTCPeerConnectionSpec.cpp
   ../nitrogen/generated/shared/c++/HybridRTCRtpReceiverSpec.cpp
   ../nitrogen/generated/shared/c++/HybridRTCRtpSenderSpec.cpp
@@ -48,6 +49,7 @@ target_sources(
   # Android-specific Nitrogen C++ sources
   ../nitrogen/generated/android/c++/JHybridCameraSpec.cpp
   ../nitrogen/generated/android/c++/JHybridMicrophoneSpec.cpp
+  ../nitrogen/generated/android/c++/JHybridPermissionsSpec.cpp
   ../nitrogen/generated/android/c++/JHybridWebrtcViewSpec.cpp
   ../nitrogen/generated/android/c++/views/JHybridWebrtcViewStateUpdater.cpp
 )

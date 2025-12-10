@@ -35,7 +35,6 @@ class HybridMicrophone : HybridMicrophoneSpec() {
     override fun open(pipeId: String): Promise<Unit> {
         this.pipeId = pipeId
         return Promise.async {
-            requestPermission(android.Manifest.permission.RECORD_AUDIO)
 
             audioRecord = AudioRecord(
                 MediaRecorder.AudioSource.VOICE_COMMUNICATION,

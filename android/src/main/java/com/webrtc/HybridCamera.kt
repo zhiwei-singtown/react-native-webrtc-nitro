@@ -154,7 +154,6 @@ class HybridCamera : HybridCameraSpec() {
     override fun open(pipeId: String): Promise<Unit> {
         this.pipeId = pipeId
         return Promise.async {
-            requestPermission(android.Manifest.permission.CAMERA)
             Camera.addPipeId(pipeId)
         }
     }

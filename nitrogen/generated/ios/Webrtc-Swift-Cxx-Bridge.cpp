@@ -10,6 +10,7 @@
 // Include C++ implementation defined types
 #include "HybridCameraSpecSwift.hpp"
 #include "HybridMicrophoneSpecSwift.hpp"
+#include "HybridPermissionsSpecSwift.hpp"
 #include "HybridWebrtcViewSpecSwift.hpp"
 #include "Webrtc-Swift-Cxx-Umbrella.hpp"
 #include <NitroModules/NitroDefines.hpp>
@@ -61,6 +62,30 @@ namespace margelo::nitro::webrtc::bridge::swift {
     }
     #endif
     Webrtc::HybridMicrophoneSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
+    return swiftPart.toUnsafe();
+  }
+  
+  // pragma MARK: std::function<void(PermissionState /* result */)>
+  Func_void_PermissionState create_Func_void_PermissionState(void* NON_NULL swiftClosureWrapper) noexcept {
+    auto swiftClosure = Webrtc::Func_void_PermissionState::fromUnsafe(swiftClosureWrapper);
+    return [swiftClosure = std::move(swiftClosure)](PermissionState result) mutable -> void {
+      swiftClosure.call(static_cast<int>(result));
+    };
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridPermissionsSpec>
+  std::shared_ptr<HybridPermissionsSpec> create_std__shared_ptr_HybridPermissionsSpec_(void* NON_NULL swiftUnsafePointer) noexcept {
+    Webrtc::HybridPermissionsSpec_cxx swiftPart = Webrtc::HybridPermissionsSpec_cxx::fromUnsafe(swiftUnsafePointer);
+    return std::make_shared<margelo::nitro::webrtc::HybridPermissionsSpecSwift>(swiftPart);
+  }
+  void* NON_NULL get_std__shared_ptr_HybridPermissionsSpec_(std__shared_ptr_HybridPermissionsSpec_ cppType) {
+    std::shared_ptr<margelo::nitro::webrtc::HybridPermissionsSpecSwift> swiftWrapper = std::dynamic_pointer_cast<margelo::nitro::webrtc::HybridPermissionsSpecSwift>(cppType);
+    #ifdef NITRO_DEBUG
+    if (swiftWrapper == nullptr) [[unlikely]] {
+      throw std::runtime_error("Class \"HybridPermissionsSpec\" is not implemented in Swift!");
+    }
+    #endif
+    Webrtc::HybridPermissionsSpec_cxx& swiftPart = swiftWrapper->getSwiftPart();
     return swiftPart.toUnsafe();
   }
   

@@ -87,10 +87,8 @@ public class HybridMicrophone: HybridMicrophoneSpec {
             throw RuntimeError.error(withMessage: "Pipe ID cannot be empty")
         }
         
-        try microphoneManager.prepare()
-        
         return Promise.async {
-            try await requestPermission(for: .audio)
+            try self.microphoneManager.prepare()
             self.pipeId = pipeId
             self.microphoneManager.addActivePipeId(pipeId)
         }

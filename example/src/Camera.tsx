@@ -6,6 +6,7 @@ import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import path from 'path-browserify';
 
 import {
+  Permissions,
   WebrtcView,
   MediaStream,
   MediaDevices,
@@ -76,6 +77,27 @@ export default function Camera() {
   useEffect(() => {
     let localStream: MediaStream | null = null;
     (async () => {
+      let microphonePermission = await Permissions.query({
+        name: 'microphone',
+      });
+      if (microphonePermission === 'prompt') {
+        microphonePermission = await Permissions.request({
+          name: 'microphone',
+        });
+      }
+
+      let cameraPermission = await Permissions.query({ name: 'camera' });
+      if (cameraPermission === 'prompt') {
+        cameraPermission = await Permissions.request({ name: 'camera' });
+      }
+      if (
+        microphonePermission !== 'granted' ||
+        cameraPermission !== 'granted'
+      ) {
+        Alert.alert('Permissions not granted');
+        return;
+      }
+
       try {
         localStream = await MediaDevices.getUserMedia({
           // localStream = await MediaDevices.getMockMedia({

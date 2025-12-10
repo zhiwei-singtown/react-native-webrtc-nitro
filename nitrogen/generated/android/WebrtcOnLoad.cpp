@@ -17,6 +17,7 @@
 
 #include "JHybridCameraSpec.hpp"
 #include "JHybridMicrophoneSpec.hpp"
+#include "JHybridPermissionsSpec.hpp"
 #include "JHybridWebrtcViewSpec.hpp"
 #include "views/JHybridWebrtcViewStateUpdater.hpp"
 #include <NitroModules/DefaultConstructableObject.hpp>
@@ -40,10 +41,19 @@ int initialize(JavaVM* vm) {
     // Register native JNI methods
     margelo::nitro::webrtc::JHybridCameraSpec::registerNatives();
     margelo::nitro::webrtc::JHybridMicrophoneSpec::registerNatives();
+    margelo::nitro::webrtc::JHybridPermissionsSpec::registerNatives();
     margelo::nitro::webrtc::JHybridWebrtcViewSpec::registerNatives();
     margelo::nitro::webrtc::views::JHybridWebrtcViewStateUpdater::registerNatives();
 
     // Register Nitro Hybrid Objects
+    HybridObjectRegistry::registerHybridObjectConstructor(
+      "Permissions",
+      []() -> std::shared_ptr<HybridObject> {
+        static DefaultConstructableObject<JHybridPermissionsSpec::javaobject> object("com/webrtc/HybridPermissions");
+        auto instance = object.create();
+        return instance->cthis()->shared();
+      }
+    );
     HybridObjectRegistry::registerHybridObjectConstructor(
       "Microphone",
       []() -> std::shared_ptr<HybridObject> {

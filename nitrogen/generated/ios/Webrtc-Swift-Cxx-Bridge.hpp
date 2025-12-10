@@ -12,21 +12,29 @@
 namespace margelo::nitro::webrtc { class HybridCameraSpec; }
 // Forward declaration of `HybridMicrophoneSpec` to properly resolve imports.
 namespace margelo::nitro::webrtc { class HybridMicrophoneSpec; }
+// Forward declaration of `HybridPermissionsSpec` to properly resolve imports.
+namespace margelo::nitro::webrtc { class HybridPermissionsSpec; }
 // Forward declaration of `HybridWebrtcViewSpec` to properly resolve imports.
 namespace margelo::nitro::webrtc { class HybridWebrtcViewSpec; }
+// Forward declaration of `PermissionState` to properly resolve imports.
+namespace margelo::nitro::webrtc { enum class PermissionState; }
 
 // Forward declarations of Swift defined types
 // Forward declaration of `HybridCameraSpec_cxx` to properly resolve imports.
 namespace Webrtc { class HybridCameraSpec_cxx; }
 // Forward declaration of `HybridMicrophoneSpec_cxx` to properly resolve imports.
 namespace Webrtc { class HybridMicrophoneSpec_cxx; }
+// Forward declaration of `HybridPermissionsSpec_cxx` to properly resolve imports.
+namespace Webrtc { class HybridPermissionsSpec_cxx; }
 // Forward declaration of `HybridWebrtcViewSpec_cxx` to properly resolve imports.
 namespace Webrtc { class HybridWebrtcViewSpec_cxx; }
 
 // Include C++ defined types
 #include "HybridCameraSpec.hpp"
 #include "HybridMicrophoneSpec.hpp"
+#include "HybridPermissionsSpec.hpp"
 #include "HybridWebrtcViewSpec.hpp"
+#include "PermissionState.hpp"
 #include <NitroModules/Promise.hpp>
 #include <NitroModules/PromiseHolder.hpp>
 #include <NitroModules/Result.hpp>
@@ -130,6 +138,61 @@ namespace margelo::nitro::webrtc::bridge::swift {
   // pragma MARK: std::weak_ptr<HybridMicrophoneSpec>
   using std__weak_ptr_HybridMicrophoneSpec_ = std::weak_ptr<HybridMicrophoneSpec>;
   inline std__weak_ptr_HybridMicrophoneSpec_ weakify_std__shared_ptr_HybridMicrophoneSpec_(const std::shared_ptr<HybridMicrophoneSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: std::shared_ptr<Promise<PermissionState>>
+  /**
+   * Specialized version of `std::shared_ptr<Promise<PermissionState>>`.
+   */
+  using std__shared_ptr_Promise_PermissionState__ = std::shared_ptr<Promise<PermissionState>>;
+  inline std::shared_ptr<Promise<PermissionState>> create_std__shared_ptr_Promise_PermissionState__() noexcept {
+    return Promise<PermissionState>::create();
+  }
+  inline PromiseHolder<PermissionState> wrap_std__shared_ptr_Promise_PermissionState__(std::shared_ptr<Promise<PermissionState>> promise) noexcept {
+    return PromiseHolder<PermissionState>(std::move(promise));
+  }
+  
+  // pragma MARK: std::function<void(PermissionState /* result */)>
+  /**
+   * Specialized version of `std::function<void(PermissionState)>`.
+   */
+  using Func_void_PermissionState = std::function<void(PermissionState /* result */)>;
+  /**
+   * Wrapper class for a `std::function<void(PermissionState / * result * /)>`, this can be used from Swift.
+   */
+  class Func_void_PermissionState_Wrapper final {
+  public:
+    explicit Func_void_PermissionState_Wrapper(std::function<void(PermissionState /* result */)>&& func): _function(std::make_unique<std::function<void(PermissionState /* result */)>>(std::move(func))) {}
+    inline void call(int result) const noexcept {
+      _function->operator()(static_cast<PermissionState>(result));
+    }
+  private:
+    std::unique_ptr<std::function<void(PermissionState /* result */)>> _function;
+  } SWIFT_NONCOPYABLE;
+  Func_void_PermissionState create_Func_void_PermissionState(void* NON_NULL swiftClosureWrapper) noexcept;
+  inline Func_void_PermissionState_Wrapper wrap_Func_void_PermissionState(Func_void_PermissionState value) noexcept {
+    return Func_void_PermissionState_Wrapper(std::move(value));
+  }
+  
+  // pragma MARK: std::shared_ptr<HybridPermissionsSpec>
+  /**
+   * Specialized version of `std::shared_ptr<HybridPermissionsSpec>`.
+   */
+  using std__shared_ptr_HybridPermissionsSpec_ = std::shared_ptr<HybridPermissionsSpec>;
+  std::shared_ptr<HybridPermissionsSpec> create_std__shared_ptr_HybridPermissionsSpec_(void* NON_NULL swiftUnsafePointer) noexcept;
+  void* NON_NULL get_std__shared_ptr_HybridPermissionsSpec_(std__shared_ptr_HybridPermissionsSpec_ cppType);
+  
+  // pragma MARK: std::weak_ptr<HybridPermissionsSpec>
+  using std__weak_ptr_HybridPermissionsSpec_ = std::weak_ptr<HybridPermissionsSpec>;
+  inline std__weak_ptr_HybridPermissionsSpec_ weakify_std__shared_ptr_HybridPermissionsSpec_(const std::shared_ptr<HybridPermissionsSpec>& strong) noexcept { return strong; }
+  
+  // pragma MARK: Result<std::shared_ptr<Promise<PermissionState>>>
+  using Result_std__shared_ptr_Promise_PermissionState___ = Result<std::shared_ptr<Promise<PermissionState>>>;
+  inline Result_std__shared_ptr_Promise_PermissionState___ create_Result_std__shared_ptr_Promise_PermissionState___(const std::shared_ptr<Promise<PermissionState>>& value) noexcept {
+    return Result<std::shared_ptr<Promise<PermissionState>>>::withValue(value);
+  }
+  inline Result_std__shared_ptr_Promise_PermissionState___ create_Result_std__shared_ptr_Promise_PermissionState___(const std::exception_ptr& error) noexcept {
+    return Result<std::shared_ptr<Promise<PermissionState>>>::withError(error);
+  }
   
   // pragma MARK: std::optional<std::string>
   /**

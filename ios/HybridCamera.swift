@@ -95,10 +95,8 @@ public class HybridCamera: HybridCameraSpec {
             throw RuntimeError.error(withMessage: "Pipe ID cannot be empty")
         }
         
-        try cameraManager.prepare()
-        
         return Promise.async {
-            try await requestPermission(for: .video)
+            try self.cameraManager.prepare()
             self.pipeId = pipeId
             self.cameraManager.addActivePipeId(pipeId)
         }
