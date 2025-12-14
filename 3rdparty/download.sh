@@ -7,7 +7,7 @@ else
 fi
 
 if [ ! -d "repo/libdatachannel" ]; then
-    git clone https://github.com/paullouisageneau/libdatachannel.git repo/libdatachannel --recursive --depth 1 -b v0.23.1
+    git clone https://github.com/paullouisageneau/libdatachannel.git repo/libdatachannel --recursive --depth 1 -b v0.24.0
 else
     echo "libdatachannel already exists, skipping clone."
 fi

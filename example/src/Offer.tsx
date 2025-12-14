@@ -73,7 +73,7 @@ export default function Offer() {
         }
       };
 
-      localStream = await MediaDevices.getMockMedia({
+      localStream = await MediaDevices.getUserMedia({
         video: true,
         audio: true,
       });

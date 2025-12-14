@@ -127,7 +127,7 @@ export default function SelfVideo() {
       setLocalDescription(offer.sdp || '');
 
       try {
-        localStream = await MediaDevices.getMockMedia({
+        localStream = await MediaDevices.getUserMedia({
           audio: true,
           video: true,
         });
