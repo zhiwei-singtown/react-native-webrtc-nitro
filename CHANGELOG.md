@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.1...v1.2.2) (2025-12-15)
+
+### 🛠️ Other changes
+
+* **deps:** bump actions/cache from 4 to 5 ([e37548b](https://github.com/SingTown/react-native-webrtc-nitro/commit/e37548b1d0e061a7e6c7dc05f3683a5904ff5130))
+
 ## [1.2.1](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.0...v1.2.1) (2025-12-14)
 
 ### 🛠️ Other changes
