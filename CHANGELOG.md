@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.2...v1.2.3) (2025-12-15)
+
+### 🛠️ Other changes
+
+* **deps:** bump actions/upload-artifact from 5 to 6 ([5af41ee](https://github.com/SingTown/react-native-webrtc-nitro/commit/5af41eeea0408e8d563d4a06622bd3e4cbcabbb7))
+
 ## [1.2.2](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.1...v1.2.2) (2025-12-15)
 
 ### 🛠️ Other changes
