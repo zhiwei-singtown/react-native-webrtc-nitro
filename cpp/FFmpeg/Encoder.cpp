@@ -45,10 +45,6 @@ void Encoder::_init (const Frame &frame)
         ctx->max_b_frames = 0;
         ctx->pix_fmt = AV_PIX_FMT_YUV420P;
         ctx->profile = FF_PROFILE_H264_CONSTRAINED_BASELINE;
-        ctx->color_range = AVCOL_RANGE_MPEG;
-        ctx->color_primaries = AVCOL_PRI_BT709;
-        ctx->color_trc = AVCOL_TRC_BT709;
-        ctx->colorspace = AVCOL_SPC_BT709;
     }
     else if (encoder->id == AV_CODEC_ID_H265)
     {
@@ -62,10 +58,6 @@ void Encoder::_init (const Frame &frame)
         ctx->max_b_frames = 0;
         ctx->pix_fmt = AV_PIX_FMT_YUV420P;
         ctx->profile = FF_PROFILE_HEVC_MAIN;
-        ctx->color_range = AVCOL_RANGE_MPEG;
-        ctx->color_primaries = AVCOL_PRI_BT709;
-        ctx->color_trc = AVCOL_TRC_BT709;
-        ctx->colorspace = AVCOL_SPC_BT709;
     }
     else if (encoder->id == AV_CODEC_ID_OPUS)
     {
