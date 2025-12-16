@@ -1,3 +1,15 @@
+## [1.3.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.3...v1.3.0) (2025-12-16)
+
+### ✨ Features
+
+* add nackResponder ([032c668](https://github.com/SingTown/react-native-webrtc-nitro/commit/032c66874a289df22c78143dac93ea0f4cc1c437))
+* add sdpMid in RTCIceCandidate ([58507ef](https://github.com/SingTown/react-native-webrtc-nitro/commit/58507ef635b9d23dedb1003456b80cc84932e1f0))
+* fix HybridMediaStream order ([123f3d1](https://github.com/SingTown/react-native-webrtc-nitro/commit/123f3d1d822591d094d6895a08b378a249986c43))
+
+### 🛠️ Other changes
+
+* remove encoder color range ([9966330](https://github.com/SingTown/react-native-webrtc-nitro/commit/9966330a247991fe8fc8312f5585f306280cb6d1))
+
 ## [1.2.3](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.2...v1.2.3) (2025-12-15)
 
 ### 🛠️ Other changes
