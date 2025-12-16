@@ -104,7 +104,6 @@ void HybridRTCRtpTransceiver::senderOnOpen ()
         return;
     }
 
-    const size_t mtu = 1200;
     auto ssrcs = track->description ().getSSRCs ();
     if (ssrcs.size () != 1)
     {
@@ -116,31 +115,72 @@ void HybridRTCRtpTransceiver::senderOnOpen ()
     auto separator = rtc::NalUnit::Separator::StartSequence;
     if (rtpMap->format == "H265")
     {
+        // create RTP configuration
         auto rtpConfig = std::make_shared<rtc::RtpPacketizationConfig> (
             ssrc, track->mid (), rtpMap->payloadType,
             rtc::H265RtpPacketizer::ClockRate);
-        auto packetizer = std::make_shared<rtc::H265RtpPacketizer> (
-            separator, rtpConfig, mtu);
-        track->chainMediaHandler (packetizer);
+        // create packetizer
+        auto packetizer
+            = std::make_shared<rtc::H265RtpPacketizer> (separator, rtpConfig);
+
+        // add RTCP SR handler
+        auto srReporter = make_shared<rtc::RtcpSrReporter> (rtpConfig);
+        packetizer->addToChain (srReporter);
+
+        // add RTCP NACK handler
+        auto nackResponder = make_shared<rtc::RtcpNackResponder> ();
+        packetizer->addToChain (nackResponder);
+
+        // set handler
+        track->setMediaHandler (packetizer);
+
         avCodecId = AV_CODEC_ID_H265;
     }
     else if (rtpMap->format == "H264")
     {
+        // create RTP configuration
         auto rtpConfig = std::make_shared<rtc::RtpPacketizationConfig> (
             ssrc, track->mid (), rtpMap->payloadType,
             rtc::H264RtpPacketizer::ClockRate);
-        auto packetizer = std::make_shared<rtc::H264RtpPacketizer> (
-            separator, rtpConfig, mtu);
-        track->chainMediaHandler (packetizer);
+
+        // create packetizer
+        auto packetizer
+            = std::make_shared<rtc::H264RtpPacketizer> (separator, rtpConfig);
+
+        // add RTCP SR handler
+        auto srReporter = make_shared<rtc::RtcpSrReporter> (rtpConfig);
+        packetizer->addToChain (srReporter);
+
+        // add RTCP NACK handler
+        auto nackResponder = make_shared<rtc::RtcpNackResponder> ();
+        packetizer->addToChain (nackResponder);
+
+        // set handler
+        track->setMediaHandler (packetizer);
+
         avCodecId = AV_CODEC_ID_H264;
     }
     else if (rtpMap->format == "opus")
     {
+        // create RTP configuration
         auto rtpConfig = std::make_shared<rtc::RtpPacketizationConfig> (
             ssrc, track->mid (), rtpMap->payloadType,
             rtc::OpusRtpPacketizer::DefaultClockRate);
+
+        // create packetizer
         auto packetizer = std::make_shared<rtc::OpusRtpPacketizer> (rtpConfig);
-        track->chainMediaHandler (packetizer);
+
+        // add RTCP SR handler
+        auto srReporter = make_shared<rtc::RtcpSrReporter> (rtpConfig);
+        packetizer->addToChain (srReporter);
+
+        // add RTCP NACK handler
+        auto nackResponder = make_shared<rtc::RtcpNackResponder> ();
+        packetizer->addToChain (nackResponder);
+
+        // set handler
+        track->setMediaHandler (packetizer);
+
         avCodecId = AV_CODEC_ID_OPUS;
     }
     else
