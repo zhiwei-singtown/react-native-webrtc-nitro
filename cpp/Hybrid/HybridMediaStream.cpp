@@ -7,9 +7,9 @@ auto HybridMediaStream::getTracks ()
 {
     std::vector<std::shared_ptr<HybridMediaStreamTrackSpec>>
         hybridMediaStreamTrackSpecs;
-    hybridMediaStreamTrackSpecs.reserve (mediaStreamTrackMap.size ());
+    hybridMediaStreamTrackSpecs.reserve (mediaStreamTracks.size ());
 
-    for (const auto &[_, track] : mediaStreamTrackMap)
+    for (const auto &track : mediaStreamTracks)
     {
         hybridMediaStreamTrackSpecs.push_back (track);
     }
@@ -21,9 +21,9 @@ auto HybridMediaStream::getAudioTracks ()
 {
     std::vector<std::shared_ptr<HybridMediaStreamTrackSpec>>
         hybridMediaStreamTrackSpecs;
-    hybridMediaStreamTrackSpecs.reserve (mediaStreamTrackMap.size ());
+    hybridMediaStreamTrackSpecs.reserve (mediaStreamTracks.size ());
 
-    for (const auto &[_, track] : mediaStreamTrackMap)
+    for (const auto &track : mediaStreamTracks)
     {
         if (track->getKind () == "audio")
         {
@@ -38,9 +38,9 @@ auto HybridMediaStream::getVideoTracks ()
 {
     std::vector<std::shared_ptr<HybridMediaStreamTrackSpec>>
         hybridMediaStreamTrackSpecs;
-    hybridMediaStreamTrackSpecs.reserve (mediaStreamTrackMap.size ());
+    hybridMediaStreamTrackSpecs.reserve (mediaStreamTracks.size ());
 
-    for (const auto &[_, track] : mediaStreamTrackMap)
+    for (const auto &track : mediaStreamTracks)
     {
         if (track->getKind () == "video")
         {
@@ -53,11 +53,19 @@ auto HybridMediaStream::getVideoTracks ()
 void HybridMediaStream::addTrack (
     const std::shared_ptr<HybridMediaStreamTrackSpec> &track)
 {
-    mediaStreamTrackMap[track->getId ()] = track;
+    if (std::find (mediaStreamTracks.begin (), mediaStreamTracks.end (), track)
+        != mediaStreamTracks.end ())
+    {
+        return;
+    }
+
+    mediaStreamTracks.push_back (track);
 };
 
 void HybridMediaStream::removeTrack (
     const std::shared_ptr<HybridMediaStreamTrackSpec> &track)
 {
-    mediaStreamTrackMap.erase (track->getId ());
+    mediaStreamTracks.erase (std::remove (mediaStreamTracks.begin (),
+                                          mediaStreamTracks.end (), track),
+                             mediaStreamTracks.end ());
 };

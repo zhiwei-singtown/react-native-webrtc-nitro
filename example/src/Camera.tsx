@@ -101,8 +101,8 @@ export default function Camera() {
       try {
         localStream = await MediaDevices.getUserMedia({
           // localStream = await MediaDevices.getMockMedia({
-          video: true,
           audio: true,
+          video: true,
         });
         setStream(localStream);
       } catch (e) {

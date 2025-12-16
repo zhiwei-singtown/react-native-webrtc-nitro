@@ -74,8 +74,8 @@ export default function App() {
       };
 
       localStream = await MediaDevices.getUserMedia({
-        video: true,
         audio: true,
+        video: true,
       });
 
       localStream?.getTracks().forEach(track => {

@@ -8,9 +8,8 @@ namespace margelo::nitro::webrtc
     {
       private:
         const std::string id;
-        std::unordered_map<std::string,
-                           std::shared_ptr<HybridMediaStreamTrackSpec>>
-            mediaStreamTrackMap;
+        std::vector<std::shared_ptr<HybridMediaStreamTrackSpec>>
+            mediaStreamTracks;
 
       public:
         HybridMediaStream ()
