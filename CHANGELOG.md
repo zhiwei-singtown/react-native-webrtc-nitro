@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.3.0...v1.4.0) (2025-12-18)
+
+### ✨ Features
+
+* add jitter buffer ([c2b3fc5](https://github.com/SingTown/react-native-webrtc-nitro/commit/c2b3fc542e2605c5cd0c0d30228d4b4581e9388e))
+
 ## [1.3.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.2.3...v1.3.0) (2025-12-16)
 
 ### ✨ Features
