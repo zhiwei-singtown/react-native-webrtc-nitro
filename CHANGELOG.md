@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.4.0...v1.5.0) (2025-12-26)
+
+### ✨ Features
+
+* nack requester ([a73aeef](https://github.com/SingTown/react-native-webrtc-nitro/commit/a73aeef1a30d0c227346ef139acb3e0a243d2570))
+
 ## [1.4.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.3.0...v1.4.0) (2025-12-18)
 
 ### ✨ Features
