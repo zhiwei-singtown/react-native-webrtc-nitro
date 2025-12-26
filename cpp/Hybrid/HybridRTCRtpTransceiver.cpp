@@ -1,5 +1,5 @@
 #include "HybridRTCRtpTransceiver.hpp"
-#include "rtcpjitterbuffer.hpp"
+#include "rtcpnackrequester.hpp"
 
 using namespace margelo::nitro::webrtc;
 
@@ -218,17 +218,24 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
         return;
     }
 
+    auto ssrcs = track->description ().getSSRCs ();
+    if (ssrcs.size () != 1)
+    {
+        throw std::runtime_error ("Expected exactly one SSRC");
+    }
+    rtc::SSRC ssrc = ssrcs[0];
+
     AVCodecID avCodecId;
     auto separator = rtc::NalUnit::Separator::StartSequence;
 
-    auto jitterbuffer = std::make_shared<rtc::RtcpJitterBuffer> ();
+    auto nackRequester = std::make_shared<rtc::RtcpNackRequester> (ssrc);
     auto rtcpSession = std::make_shared<rtc::RtcpReceivingSession> ();
 
     if (rtpMap->format == "H265")
     {
         auto depacketizer
             = std::make_shared<rtc::H265RtpDepacketizer> (separator);
-        depacketizer->addToChain (jitterbuffer);
+        depacketizer->addToChain (nackRequester);
         depacketizer->addToChain (rtcpSession);
 
         track->chainMediaHandler (depacketizer);
@@ -238,7 +245,7 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
     {
         auto depacketizer
             = std::make_shared<rtc::H264RtpDepacketizer> (separator);
-        depacketizer->addToChain (jitterbuffer);
+        depacketizer->addToChain (nackRequester);
         depacketizer->addToChain (rtcpSession);
 
         track->chainMediaHandler (depacketizer);
@@ -247,7 +254,6 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
     else if (rtpMap->format == "opus")
     {
         auto depacketizer = std::make_shared<rtc::OpusRtpDepacketizer> ();
-        depacketizer->addToChain (jitterbuffer);
         depacketizer->addToChain (rtcpSession);
 
         track->chainMediaHandler (depacketizer);
@@ -262,8 +268,12 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
     std::string pipeId
         = hybridRtcRtpReceiver->mediaStreamTrack->get_srcPipeId ();
     track->onFrame (
-        [decoder, pipeId] (rtc::binary binary, rtc::FrameInfo info)
+        [decoder, pipeId] (const rtc::binary &binary, rtc::FrameInfo info)
         {
+            if (binary.size () == 0)
+            {
+                return;
+            }
             FFmpeg::Packet packet (binary.size ());
             memcpy (packet->data,
                     reinterpret_cast<const void *> (binary.data ()),
