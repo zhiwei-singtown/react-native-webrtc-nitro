@@ -46,8 +46,13 @@ Java_com_webrtc_HybridWebrtcView_subscribeAudio (JNIEnv *env, jobject,
 
         jclass audioTrackCls = env->GetObjectClass (trackGlobal);
         jmethodID writeMethod
-            = env->GetMethodID (audioTrackCls, "write", "([BII)I");
-        env->CallIntMethod (trackGlobal, writeMethod, byteArray, 0, length);
+            = env->GetMethodID (audioTrackCls, "write", "([BIII)I");
+        jfieldID writeNonBlockField
+            = env->GetStaticFieldID (audioTrackCls, "WRITE_NON_BLOCKING", "I");
+        jint WRITE_NON_BLOCKING
+            = env->GetStaticIntField (audioTrackCls, writeNonBlockField);
+        env->CallIntMethod (trackGlobal, writeMethod, byteArray, 0, length,
+                            WRITE_NON_BLOCKING);
     };
 
     CleanupCallback cleanup = [trackGlobal] (int)

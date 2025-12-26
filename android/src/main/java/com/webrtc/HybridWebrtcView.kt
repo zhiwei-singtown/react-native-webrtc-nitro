@@ -25,7 +25,7 @@ class HybridWebrtcView(val context: ThemedReactContext) : HybridWebrtcViewSpec()
             48000,
             AudioFormat.CHANNEL_OUT_STEREO,
             AudioFormat.ENCODING_PCM_16BIT
-        ),
+        ) * 4,
         AudioTrack.MODE_STREAM
     )
 
