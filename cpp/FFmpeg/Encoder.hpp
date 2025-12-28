@@ -38,6 +38,7 @@ namespace FFmpeg
         static constexpr int H265_FPS = 30;
 
         void _init (const Frame &frame);
+        void _fallback (const Frame &frame);
         void _receive ();
 
       public:

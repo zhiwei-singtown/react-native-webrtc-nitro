@@ -92,7 +92,34 @@ void Encoder::_init (const Frame &frame)
     }
     ctx->flags |= AV_CODEC_FLAG_LOW_DELAY;
     int ret = avcodec_open2 (ctx, encoder, nullptr);
-    checkError (ret, "avcodec_open2");
+    if (ret < 0)
+    {
+        _fallback (frame);
+    }
+}
+
+void Encoder::_fallback (const Frame &)
+{
+    std::string codecName;
+    if (encoder->id == AV_CODEC_ID_H264)
+    {
+        codecName = "c2.android.avc.encoder";
+    }
+    else if (encoder->id == AV_CODEC_ID_H265)
+    {
+        codecName = "c2.android.hevc.encoder";
+    }
+    else
+    {
+        throw std::runtime_error ("Unsupported encoder"
+                                  + std::to_string (encoder->id));
+    }
+
+    AVDictionary *opts = nullptr;
+    int ret = av_dict_set (&opts, "codec_name", codecName.c_str (), 0);
+    checkError (ret, "av_dict_set codec_name");
+    ret = avcodec_open2 (ctx, encoder, &opts);
+    checkError (ret, "avcodec_open2 fallback");
 }
 
 void Encoder::_receive ()
