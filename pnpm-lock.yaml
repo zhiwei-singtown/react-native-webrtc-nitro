@@ -25,7 +25,7 @@ importers:
         version: 19.2.7
       clang-format-node:
         specifier: ^2.0.5
-        version: 2.0.5
+        version: 2.0.7
       conventional-changelog-conventionalcommits:
         specifier: ^9.1.0
         version: 9.1.0
@@ -1751,8 +1751,8 @@ packages:
     resolution: {integrity: sha512-Wdy2Igu8OcBpI2pZePZ5oWjPC38tmDVx5WKUXKwlLYkA0ozo85sLsLvkBbBn/sZaSCMFOGZJ14fvW9t5/d7kdA==}
     engines: {node: '>=8'}
 
-  clang-format-node@2.0.5:
-    resolution: {integrity: sha512-7k0PsA0FFkHpZA1GdYAGWvxFyHHXeXJsH71N6S0RtOj/I99LUjhrNtED4SXQFlGZhnEpHqv/r8FBhWlmRMMxWg==}
+  clang-format-node@2.0.7:
+    resolution: {integrity: sha512-lgYsU/SXYEiLay58CqaNiMht4DDVhseerteYnbZzGOWXXR7+w6DwhBd5Ks6tLmU99XrpdWR5LwMMDL/ZPlA84g==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -6900,7 +6900,7 @@ snapshots:
 
   ci-info@4.3.1: {}
 
-  clang-format-node@2.0.5: {}
+  clang-format-node@2.0.7: {}
 
   clean-stack@2.2.0: {}
 
