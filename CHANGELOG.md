@@ -1,14 +1,3 @@
-## [1.6.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.5.0...v1.6.0) (2025-12-28)
-
-### ✨ Features
-
-* add encoder fallback ([e812a7d](https://github.com/SingTown/react-native-webrtc-nitro/commit/e812a7d0e04f919165b14ebd7d51bd39f8e2ebe7))
-* add nack resend ([13c8028](https://github.com/SingTown/react-native-webrtc-nitro/commit/13c80280c3f9496a5867f08c5535d4d4e126c656))
-
-### 🐛 Bug Fixes
-
-* audio track non blocking ([0820c6b](https://github.com/SingTown/react-native-webrtc-nitro/commit/0820c6b210233abea4f005f7ddf88353ee011a55))
-
 ## [1.5.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.4.0...v1.5.0) (2025-12-26)
 
 ### ✨ Features
