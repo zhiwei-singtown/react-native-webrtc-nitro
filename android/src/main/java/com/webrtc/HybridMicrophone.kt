@@ -20,7 +20,7 @@ class HybridMicrophone : HybridMicrophoneSpec() {
     private var aec: AcousticEchoCanceler? = null
 
     companion object {
-        private const val SAMPLE_RATE = 44100
+        private const val SAMPLE_RATE = 48000
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
         private val BUFFER_SIZE = AudioRecord.getMinBufferSize(
@@ -37,7 +37,7 @@ class HybridMicrophone : HybridMicrophoneSpec() {
         return Promise.async {
 
             audioRecord = AudioRecord(
-                MediaRecorder.AudioSource.VOICE_COMMUNICATION,
+                MediaRecorder.AudioSource.MIC,
                 SAMPLE_RATE,
                 CHANNEL_CONFIG,
                 AUDIO_FORMAT,
