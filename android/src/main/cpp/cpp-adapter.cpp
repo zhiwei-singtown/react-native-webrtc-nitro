@@ -6,10 +6,12 @@
 #include <android/native_window_jni.h>
 #include <chrono>
 #include <jni.h>
+#include <mutex>
 #include <string>
 
 JavaVM *gJvm = nullptr;
 static NativeMicrophone gNativeMicrophone;
+static std::mutex gAudioTrackWriteMutex;
 
 JNIEXPORT auto JNICALL JNI_OnLoad (JavaVM *vm, void *) -> jint
 {
@@ -31,30 +33,68 @@ Java_com_webrtc_HybridWebrtcView_subscribeAudio (JNIEnv *env, jobject,
 {
     auto resampler = std::make_shared<FFmpeg::Resampler> ();
     jobject trackGlobal = env->NewGlobalRef (track);
+    if (!trackGlobal)
+    {
+        std::string pipeIdStr (env->GetStringUTFChars (pipeId, nullptr));
+        return subscribe ({ pipeIdStr }, nullptr, nullptr);
+    }
+
+    jclass audioTrackCls = env->GetObjectClass (track);
+    jmethodID writeMethod
+        = env->GetMethodID (audioTrackCls, "write", "([BIII)I");
+    jfieldID writeNonBlockField
+        = env->GetStaticFieldID (audioTrackCls, "WRITE_NON_BLOCKING", "I");
+    jint writeNonBlocking
+        = env->GetStaticIntField (audioTrackCls, writeNonBlockField);
+    env->DeleteLocalRef (audioTrackCls);
 
     FrameCallback callback
-        = [trackGlobal, resampler] (const std::string &, int,
-                                    const FFmpeg::Frame &raw)
+        = [trackGlobal, resampler, writeMethod,
+           writeNonBlocking] (const std::string &, int,
+                              const FFmpeg::Frame &raw)
     {
-        JNIEnv *env;
-        gJvm->AttachCurrentThread (&env, nullptr);
+        JNIEnv *env = nullptr;
+        if (gJvm->AttachCurrentThread (&env, nullptr) != JNI_OK || !env)
+        {
+            return;
+        }
 
         FFmpeg::Frame frame
             = resampler->resample (raw, AV_SAMPLE_FMT_S16, 48000, 2);
-        auto *sample = reinterpret_cast<const jbyte *> (frame->data[0]);
         int length = frame->nb_samples * 2 * 2;
+        if (length <= 0)
+        {
+            return;
+        }
+        auto *sample = reinterpret_cast<const jbyte *> (frame->data[0]);
         jbyteArray byteArray = env->NewByteArray (length);
+        if (!byteArray)
+        {
+            env->ExceptionClear ();
+            return;
+        }
         env->SetByteArrayRegion (byteArray, 0, length, sample);
-
-        jclass audioTrackCls = env->GetObjectClass (trackGlobal);
-        jmethodID writeMethod
-            = env->GetMethodID (audioTrackCls, "write", "([BIII)I");
-        jfieldID writeNonBlockField
-            = env->GetStaticFieldID (audioTrackCls, "WRITE_NON_BLOCKING", "I");
-        jint WRITE_NON_BLOCKING
-            = env->GetStaticIntField (audioTrackCls, writeNonBlockField);
-        env->CallIntMethod (trackGlobal, writeMethod, byteArray, 0, length,
-                            WRITE_NON_BLOCKING);
+        if (env->ExceptionCheck ())
+        {
+            env->ExceptionClear ();
+            env->DeleteLocalRef (byteArray);
+            return;
+        }
+        if (!trackGlobal || !writeMethod)
+        {
+            env->DeleteLocalRef (byteArray);
+            return;
+        }
+        {
+            std::lock_guard<std::mutex> lock (gAudioTrackWriteMutex);
+            env->CallIntMethod (trackGlobal, writeMethod, byteArray, 0, length,
+                                writeNonBlocking);
+        }
+        if (env->ExceptionCheck ())
+        {
+            env->ExceptionClear ();
+        }
+        env->DeleteLocalRef (byteArray);
     };
 
     CleanupCallback cleanup = [trackGlobal] (int)
@@ -84,14 +124,22 @@ Java_com_webrtc_HybridWebrtcView_subscribeVideo (JNIEnv *env, jobject,
     }
 
     auto scaler = std::make_shared<FFmpeg::Scaler> ();
+    auto geoW = std::make_shared<int> (0);
+    auto geoH = std::make_shared<int> (0);
     FrameCallback callback
-        = [window, scaler] (const std::string &, int, const FFmpeg::Frame &raw)
+        = [window, scaler, geoW,
+           geoH] (const std::string &, int, const FFmpeg::Frame &raw)
     {
         FFmpeg::Frame frame
             = scaler->scale (raw, AV_PIX_FMT_RGBA, raw->width, raw->height);
 
-        ANativeWindow_setBuffersGeometry (window, frame->width, frame->height,
-                                          WINDOW_FORMAT_RGBA_8888);
+        if (*geoW != frame->width || *geoH != frame->height)
+        {
+            ANativeWindow_setBuffersGeometry (
+                window, frame->width, frame->height, WINDOW_FORMAT_RGBA_8888);
+            *geoW = frame->width;
+            *geoH = frame->height;
+        }
 
         ANativeWindow_Buffer buffer;
         if (ANativeWindow_lock (window, &buffer, nullptr) < 0)
