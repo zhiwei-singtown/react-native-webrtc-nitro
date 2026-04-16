@@ -1,5 +1,10 @@
 #include "HybridRTCRtpTransceiver.hpp"
 #include "rtcpnackrequester.hpp"
+#include "FecEncoder.hpp"
+#include "FecDecoder.hpp"
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 
 using namespace margelo::nitro::webrtc;
 
@@ -132,6 +137,10 @@ void HybridRTCRtpTransceiver::senderOnOpen ()
         auto nackResponder = make_shared<rtc::RtcpNackResponder> ();
         packetizer->addToChain (nackResponder);
 
+        // add FEC encoder (after NACK so retransmission buffer is clean)
+        auto fecEncoder = make_shared<rtc::FecEncoder> ();
+        packetizer->addToChain (fecEncoder);
+
         // set handler
         track->setMediaHandler (packetizer);
 
@@ -155,6 +164,10 @@ void HybridRTCRtpTransceiver::senderOnOpen ()
         // add RTCP NACK handler
         auto nackResponder = make_shared<rtc::RtcpNackResponder> ();
         packetizer->addToChain (nackResponder);
+
+        // add FEC encoder
+        auto fecEncoder = make_shared<rtc::FecEncoder> ();
+        packetizer->addToChain (fecEncoder);
 
         // set handler
         track->setMediaHandler (packetizer);
@@ -213,6 +226,11 @@ void HybridRTCRtpTransceiver::senderOnOpen ()
 
 void HybridRTCRtpTransceiver::receiverOnOpen ()
 {
+#ifdef __ANDROID__
+    __android_log_print (ANDROID_LOG_DEBUG, "WebRTC",
+                         "receiverOnOpen called, mediaStreamTrack=%p",
+                         (void *)hybridRtcRtpReceiver->mediaStreamTrack.get ());
+#endif
     if (hybridRtcRtpReceiver->mediaStreamTrack == nullptr)
     {
         return;
@@ -230,14 +248,21 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
 
     auto rtcpSession = std::make_shared<rtc::RtcpReceivingSession> ();
 
+    #ifdef __ANDROID__
+    __android_log_print (ANDROID_LOG_DEBUG, "WebRTC",
+                         "receiverOnOpen codec=%s",
+                         rtpMap ? rtpMap->format.c_str () : "null");
+    #endif
     if (rtpMap->format == "H265")
     {
+        auto fecDecoder = std::make_shared<rtc::FecDecoder> ();
         auto nackRequester
             = std::make_shared<rtc::RtcpNackRequester> (
                 ssrc, AV_CODEC_ID_H265);
 
         auto depacketizer
             = std::make_shared<rtc::H265RtpDepacketizer> (separator);
+        depacketizer->addToChain (fecDecoder);
         depacketizer->addToChain (nackRequester);
         depacketizer->addToChain (rtcpSession);
 
@@ -246,12 +271,14 @@ void HybridRTCRtpTransceiver::receiverOnOpen ()
     }
     else if (rtpMap->format == "H264")
     {
+        auto fecDecoder = std::make_shared<rtc::FecDecoder> ();
         auto nackRequester
             = std::make_shared<rtc::RtcpNackRequester> (
                 ssrc, AV_CODEC_ID_H264);
 
         auto depacketizer
             = std::make_shared<rtc::H264RtpDepacketizer> (separator);
+        depacketizer->addToChain (fecDecoder);
         depacketizer->addToChain (nackRequester);
         depacketizer->addToChain (rtcpSession);
 

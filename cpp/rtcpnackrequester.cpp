@@ -1,5 +1,9 @@
 #include "rtcpnackrequester.hpp"
 
+#include <android/log.h>
+#define LOG_TAG "WebRTC RtcpNack"
+#define ALOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+
 namespace rtc
 {
     RtcpNackRequester::RtcpNackRequester (SSRC ssrc, AVCodecID codec,
@@ -65,6 +69,8 @@ namespace rtc
                 }
                 if (nackResendTimes >= nackResendTimesMax)
                 {
+                    ALOGD("[PacketLoss] ssrc=%u seq=%u CONFIRMED LOST after %zu NACKs, dropping",
+                          (unsigned)ssrc, (unsigned)expectedSeq, nackResendTimes);
                     clearBuffer ();
                     send (pliMessage ());
                     break;
@@ -73,6 +79,9 @@ namespace rtc
                 auto now = std::chrono::steady_clock::now ();
                 if (now > nextNackTime)
                 {
+                    ALOGD("[PacketLoss] ssrc=%u seq=%u MISSING, sending NACK #%zu/%zu",
+                          (unsigned)ssrc, (unsigned)expectedSeq,
+                          nackResendTimes + 1, nackResendTimesMax);
                     nextNackTime
                         = now
                           + std::chrono::milliseconds (nackResendIntervalMs);
