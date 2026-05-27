@@ -1,3 +1,24 @@
+## [1.10.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.9.0...v1.10.0) (2026-05-27)
+
+### ✨ Features
+
+* add Android audio enhancement pipeline ([#93](https://github.com/SingTown/react-native-webrtc-nitro/issues/93)) ([b4f2678](https://github.com/SingTown/react-native-webrtc-nitro/commit/b4f26780eb05ea78a22c7bc5214c6dc094b84b52))
+* add ImageCapture photo API ([#92](https://github.com/SingTown/react-native-webrtc-nitro/issues/92)) ([8d69fbf](https://github.com/SingTown/react-native-webrtc-nitro/commit/8d69fbf8f5c7c5e82df86f2bcbd430e8395a1ada))
+* **android:** play remote audio through media volume ([#86](https://github.com/SingTown/react-native-webrtc-nitro/issues/86)) ([9420b69](https://github.com/SingTown/react-native-webrtc-nitro/commit/9420b69972e90c8a5a1a4e8f94d440ad3a212c4e))
+
+### 🐛 Bug Fixes
+
+* **ci:** run C++ lint in test workflow ([#90](https://github.com/SingTown/react-native-webrtc-nitro/issues/90)) ([9568a2e](https://github.com/SingTown/react-native-webrtc-nitro/commit/9568a2ea72b95f43c387b37b53c4534ad90f09d3))
+* **framepipe:** wait for callbacks before cleanup ([#89](https://github.com/SingTown/react-native-webrtc-nitro/issues/89)) ([8f51743](https://github.com/SingTown/react-native-webrtc-nitro/commit/8f517436d79ce6b0a82fcb9d3a8468bdd302d68c))
+
+### 📚 Documentation
+
+* add Codex agent instructions ([#91](https://github.com/SingTown/react-native-webrtc-nitro/issues/91)) ([8d57877](https://github.com/SingTown/react-native-webrtc-nitro/commit/8d5787709dffc208c5bb3baa4310a48bdd4b496e))
+
+### 🛠️ Other changes
+
+* upgrade nitro and pnpm setup ([#94](https://github.com/SingTown/react-native-webrtc-nitro/issues/94)) ([0a0d2b6](https://github.com/SingTown/react-native-webrtc-nitro/commit/0a0d2b639c1e2cb8a90cc397cc38164f8a2c425b))
+
 ## [1.9.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.8.1...v1.9.0) (2026-03-24)
 
 ### ✨ Features
