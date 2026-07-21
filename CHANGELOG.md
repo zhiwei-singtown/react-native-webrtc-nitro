@@ -1,3 +1,9 @@
+## [1.10.1](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.10.0...v1.10.1) (2026-07-21)
+
+### 🐛 Bug Fixes
+
+* buffer speaker audio to stop Android stutter and bound iOS latency ([#110](https://github.com/SingTown/react-native-webrtc-nitro/issues/110)) ([fdc5fca](https://github.com/SingTown/react-native-webrtc-nitro/commit/fdc5fcacaef48829fb5a5f95f6f42a5ee82cb36e))
+
 ## [1.10.0](https://github.com/SingTown/react-native-webrtc-nitro/compare/v1.9.0...v1.10.0) (2026-05-27)
 
 ### ✨ Features
